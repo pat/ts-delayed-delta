@@ -16,6 +16,16 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency "rspec",    ">= 1.2.9"
   gem.add_development_dependency "yard",     ">= 0"
   gem.add_development_dependency "cucumber", ">= 0"
+  
+  gem.files = FileList[
+    'lib/**/*.rb',
+    'LICENSE',
+    'README.textile'
+  ]
+  gem.test_files = FileList[
+    'features/**/*',
+    'spec/**/*'
+  ]
 end
 
 Jeweler::GemcutterTasks.new
