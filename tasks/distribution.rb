@@ -11,7 +11,8 @@ Jeweler::Tasks.new do |gem|
   gem.homepage    = "http://github.com/freelancing-god/ts-delayed-delta"
   gem.authors     = ["Pat Allan"]
   
-  gem.add_dependency 'delayed_job', '>= 1.8.4'
+  gem.add_dependency 'thinking-sphinx', '>= 1.3.6'
+  gem.add_dependency 'delayed_job',     '>= 1.8.4'
   
   gem.add_development_dependency "rspec",    ">= 1.2.9"
   gem.add_development_dependency "yard",     ">= 0"

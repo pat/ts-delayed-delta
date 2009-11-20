@@ -34,13 +34,13 @@ class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelt
     return true if skip? instance
     
     ThinkingSphinx::Deltas::Job.enqueue(
-      ThinkingSphinx::Deltas::DeltaJob.new(delta_index_name(model)),
+      ThinkingSphinx::Deltas::DeltaJob.new(model.delta_index_names),
       ThinkingSphinx::Configuration.instance.delayed_job_priority
     )
     
     Delayed::Job.enqueue(
       ThinkingSphinx::Deltas::FlagAsDeletedJob.new(
-        core_index_name(model), instance.sphinx_document_id
+        model.core_index_names, instance.sphinx_document_id
       ),
       ThinkingSphinx::Configuration.instance.delayed_job_priority
     ) if instance

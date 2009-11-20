@@ -10,7 +10,7 @@ describe ThinkingSphinx::Deltas::FlagAsDeletedJob do
       ThinkingSphinx::Search.stub!(:search_for_id => true)
       ThinkingSphinx.stub!(:sphinx_running? => true)
       
-      @job = ThinkingSphinx::Deltas::FlagAsDeletedJob.new('foo_core', 12)
+      @job = ThinkingSphinx::Deltas::FlagAsDeletedJob.new(['foo_core'], 12)
     end
     
     it "should not update if Sphinx isn't running" do
@@ -31,6 +31,14 @@ describe ThinkingSphinx::Deltas::FlagAsDeletedJob do
       @client.should_receive(:update) do |index, attributes, values|
         index.should == 'foo_core'
       end
+      
+      @job.perform
+    end
+    
+    it "should update all specified indexes" do
+      @job.indexes = ['foo_core', 'bar_core']
+      @client.should_receive(:update).with('foo_core', anything, anything)
+      @client.should_receive(:update).with('bar_core', anything, anything)
       
       @job.perform
     end

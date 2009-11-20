@@ -1,14 +1,14 @@
 # A simple job class that processes a given index.
 # 
 class ThinkingSphinx::Deltas::DeltaJob
-  attr_accessor :index
+  attr_accessor :indexes
   
   # Initialises the object with an index name.
   # 
   # @param [String] index the name of the Sphinx index
   # 
-  def initialize(index)
-    @index = index
+  def initialize(indexes)
+    @indexes = indexes
   end
   
   # Runs Sphinx's indexer tool to process the index. Currently assumes Sphinx is
@@ -19,7 +19,7 @@ class ThinkingSphinx::Deltas::DeltaJob
   def perform
     config = ThinkingSphinx::Configuration.instance
     
-    output = `#{config.bin_path}#{config.indexer_binary_name} --config #{config.config_file} --rotate #{index}`
+    output = `#{config.bin_path}#{config.indexer_binary_name} --config #{config.config_file} --rotate #{indexes.join(' ')}`
     puts output unless ThinkingSphinx.suppress_delta_output?
     
     true

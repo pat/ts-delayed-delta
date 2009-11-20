@@ -5,7 +5,7 @@ describe ThinkingSphinx::Deltas::DeltaJob do
     before :each do
       ThinkingSphinx.suppress_delta_output = false
       
-      @delta_job = ThinkingSphinx::Deltas::DeltaJob.new('foo_core')
+      @delta_job = ThinkingSphinx::Deltas::DeltaJob.new(['foo_core'])
       @delta_job.stub! :`    => true
       @delta_job.stub! :puts => nil
     end
@@ -23,13 +23,24 @@ describe ThinkingSphinx::Deltas::DeltaJob do
       @delta_job.perform
     end
     
-    it "should process just the requested index" do
+    it "should process just the requested indexes" do
       @delta_job.should_receive(:`) do |command|
         command.should match(/foo_core/)
         command.should_not match(/--all/)
       end
       
       @delta_job.perform
+    end
+    
+    context 'multiple indexes' do
+      it "should process all requested indexes" do
+        @delta_job.indexes = ['foo_core', 'bar_core']
+        @delta_job.should_receive(:`) do |command|
+          command.should match(/foo_core bar_core/)
+        end
+
+        @delta_job.perform
+      end
     end
   end
 end
