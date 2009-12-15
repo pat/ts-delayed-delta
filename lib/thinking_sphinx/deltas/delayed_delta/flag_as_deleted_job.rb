@@ -32,7 +32,7 @@ class ThinkingSphinx::Deltas::FlagAsDeletedJob
         ['sphinx_deleted'],
         {@document_id => [1]}
       ) if ThinkingSphinx.sphinx_running? &&
-        ThinkingSphinx::Search.search_for_id(@document_id, index)
+        ThinkingSphinx.search_for_id(@document_id, index)
     end
     
     true

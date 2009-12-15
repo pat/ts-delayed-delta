@@ -7,7 +7,7 @@ describe ThinkingSphinx::Deltas::FlagAsDeletedJob do
       @client = stub('client', :update => true)
       
       ThinkingSphinx::Configuration.instance.stub!(:client => @client)
-      ThinkingSphinx::Search.stub!(:search_for_id => true)
+      ThinkingSphinx.stub!(:search_for_id => true)
       ThinkingSphinx.stub!(:sphinx_running? => true)
       
       @job = ThinkingSphinx::Deltas::FlagAsDeletedJob.new(['foo_core'], 12)
@@ -21,7 +21,7 @@ describe ThinkingSphinx::Deltas::FlagAsDeletedJob do
     end
     
     it "should not update if the document isn't in the index" do
-      ThinkingSphinx::Search.stub!(:search_for_id => false)
+      ThinkingSphinx.stub!(:search_for_id => false)
       @client.should_not_receive(:update)
       
       @job.perform
@@ -60,7 +60,7 @@ describe ThinkingSphinx::Deltas::FlagAsDeletedJob do
     end
     
     it "should check for the existence of the document in the specified index" do
-      ThinkingSphinx::Search.should_receive(:search_for_id) do |id, index|
+      ThinkingSphinx.should_receive(:search_for_id) do |id, index|
         index.should == 'foo_core'
       end
       
@@ -68,7 +68,7 @@ describe ThinkingSphinx::Deltas::FlagAsDeletedJob do
     end
     
     it "should check for the existence of the given document id" do
-      ThinkingSphinx::Search.should_receive(:search_for_id) do |id, index|
+      ThinkingSphinx.should_receive(:search_for_id) do |id, index|
         id.should == 12
       end
       
