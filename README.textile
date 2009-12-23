@@ -45,6 +45,10 @@ There's also a short name for the same task, to save your fingers some effort:
 
 <pre><code>rake ts:dd</code></pre>
 
+h2. Contributors
+
+* "Ryan Schlesinger":http://github.com/ryansch
+
 h2. Copyright
 
 Copyright (c) 2009 Pat Allan, and released under an MIT Licence.
