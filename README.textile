@@ -47,7 +47,8 @@ There's also a short name for the same task, to save your fingers some effort:
 
 h2. Contributors
 
-* "Ryan Schlesinger":http://github.com/ryansch
+* "Ryan Schlesinger":http://github.com/ryansch (Allowing installs as a plugin)
+* "Maximilian Schulz":http://max.jungeelite.de (Ensuring compatibility with Bundler)
 
 h2. Copyright
 
