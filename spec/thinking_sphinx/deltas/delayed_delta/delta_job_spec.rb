@@ -43,4 +43,11 @@ describe ThinkingSphinx::Deltas::DeltaJob do
       end
     end
   end
+
+  describe "#display_name" do
+    it "should display class name with all indexes" do
+      @delta_job = ThinkingSphinx::Deltas::DeltaJob.new(['foo_core', 'bar_core'])
+      @delta_job.display_name.should == "ThinkingSphinx::Deltas::DeltaJob for foo_core, bar_core"
+    end
+  end
 end

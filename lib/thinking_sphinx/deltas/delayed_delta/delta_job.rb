@@ -11,6 +11,12 @@ class ThinkingSphinx::Deltas::DeltaJob
     @indexes = indexes
   end
   
+  # Shows index name in Delayed::Job#name.
+  # 
+  def display_name
+    "#{self.class.name} for #{indexes.join(', ')}"
+  end
+  
   # Runs Sphinx's indexer tool to process the index. Currently assumes Sphinx is
   # running.
   # 
