@@ -49,6 +49,7 @@ h2. Contributors
 
 * "Ryan Schlesinger":http://github.com/ryansch (Allowing installs as a plugin)
 * "Maximilian Schulz":http://max.jungeelite.de (Ensuring compatibility with Bundler)
+* "Edgars Beigarts":http://github.com/ebeigarts (Adding intelligent description for tasks)
 
 h2. Copyright
 
