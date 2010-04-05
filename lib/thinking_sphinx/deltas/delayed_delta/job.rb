@@ -5,6 +5,7 @@
 # As such, this class should not be used for any other tasks.
 # 
 class ThinkingSphinx::Deltas::Job < Delayed::Job
+  set_table_name :delayed_jobs
   # Adds a job to the queue, if it doesn't already exist. This is to ensure
   # multiple indexing requests for the same delta index don't get added, as the
   # index only needs to be processed once.
