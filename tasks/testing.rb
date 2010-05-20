@@ -12,7 +12,9 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.rcov    = true
 end
 
-Cucumber::Rake::Task.new
+Cucumber::Rake::Task.new do |task|
+  task.cucumber_opts = '--exclude features/thinking_sphinx'
+end
 
 task :spec      => :check_dependencies
 task :cucumber  => :check_dependencies

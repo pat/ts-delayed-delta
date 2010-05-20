@@ -19,5 +19,5 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
-features/support/database.yml
+features/thinking_sphinx/database.yml
 tmp
