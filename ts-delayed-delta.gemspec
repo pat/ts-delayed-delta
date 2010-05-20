@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ts-delayed-delta}
-  s.version = "1.0.4"
+  s.version = "1.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Pat Allan"]
-  s.date = %q{2010-03-12}
+  s.date = %q{2010-05-20}
   s.description = %q{Manage delta indexes via Delayed Job for Thinking Sphinx}
   s.email = %q{pat@freelancing-gods.com}
   s.extra_rdoc_files = [
@@ -36,16 +36,17 @@ Gem::Specification.new do |s|
      "features/step_definitions/common_steps.rb",
      "features/step_definitions/delayed_delta_steps.rb",
      "features/support",
-     "features/support/database.example.yml",
-     "features/support/database.yml",
-     "features/support/db",
-     "features/support/db/fixtures",
-     "features/support/db/fixtures/delayed_betas.rb",
-     "features/support/db/migrations",
-     "features/support/db/migrations/create_delayed_betas.rb",
      "features/support/env.rb",
-     "features/support/models",
-     "features/support/models/delayed_beta.rb",
+     "features/thinking_sphinx",
+     "features/thinking_sphinx/database.example.yml",
+     "features/thinking_sphinx/database.yml",
+     "features/thinking_sphinx/db",
+     "features/thinking_sphinx/db/fixtures",
+     "features/thinking_sphinx/db/fixtures/delayed_betas.rb",
+     "features/thinking_sphinx/db/migrations",
+     "features/thinking_sphinx/db/migrations/create_delayed_betas.rb",
+     "features/thinking_sphinx/models",
+     "features/thinking_sphinx/models/delayed_beta.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb",
      "spec/thinking_sphinx",
