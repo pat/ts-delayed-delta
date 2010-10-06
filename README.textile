@@ -9,7 +9,7 @@ You'll need Thinking Sphinx 1.3.0 or later, and Delayed Job as well. The latter 
 In your @environment.rb@ file, with the rest of your gem dependencies:
 
 <pre><code>config.gem 'ts-delayed-delta',
-  :lib     => 'thinking_sphinx/deltas/delayed_delta'
+  :lib     => 'thinking_sphinx/deltas/delayed_delta',
   :version => '>= 1.0.0',
   :source  => 'http://gemcutter.org'</code></pre>
 
