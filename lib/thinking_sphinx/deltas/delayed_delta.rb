@@ -1,5 +1,4 @@
 require 'delayed_job'
-Delayed::Worker.backend = :active_record if Delayed::Worker.respond_to? :backend
 
 require 'thinking_sphinx'
 require 'thinking_sphinx/deltas/delayed_delta/delta_job'

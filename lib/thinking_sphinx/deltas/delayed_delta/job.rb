@@ -1,10 +1,19 @@
+module Delayed
+  module Backend
+    module ActiveRecord
+      class Job < ::ActiveRecord::Base
+      end
+    end
+  end
+end
+
 # A custom job model, subclassed from Delayed::Job. The two things it does
 # differently is that it checks for duplicate tasks before enqueuing them, and
 # provides the option to remove all Delayed Delta jobs from the queue.
 # 
 # As such, this class should not be used for any other tasks.
 # 
-class ThinkingSphinx::Deltas::Job < Delayed::Job
+class ThinkingSphinx::Deltas::Job < Delayed::Backend::ActiveRecord::Job
   set_table_name :delayed_jobs
   # Adds a job to the queue, if it doesn't already exist. This is to ensure
   # multiple indexing requests for the same delta index don't get added, as the
