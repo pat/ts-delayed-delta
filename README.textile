@@ -51,6 +51,7 @@ h2. Contributors
 * "Maximilian Schulz":http://max.jungeelite.de (Ensuring compatibility with Bundler)
 * "Edgars Beigarts":http://github.com/ebeigarts (Adding intelligent description for tasks)
 * "Alexander Simonov":http://simonov.me/ (Explicit table definition)
+* "David Goodlad":http://david.goodlad.ca/ (Delayed Job/ActiveRecord load order fix)
 
 h2. Copyright
 
