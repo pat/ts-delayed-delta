@@ -26,7 +26,7 @@ class ThinkingSphinx::Deltas::Job < Delayed::Backend::ActiveRecord::Job
   # @param [Integer] priority (0)
   # 
   def self.enqueue(object, priority = 0)
-    ::Delayed::Job.enqueue(object, priority) unless duplicates_exist(object)
+    ::Delayed::Job.enqueue(object, :priority => priority) unless duplicates_exist(object)
   end
   
   # Remove all Thinking Sphinx/Delayed Delta jobs from the queue. If the
