@@ -7,6 +7,8 @@ require 'spec/autorun'
 require 'thinking_sphinx'
 require 'thinking_sphinx/deltas/delayed_delta'
 
+Delayed::Worker.backend = :active_record
+
 Spec::Runner.configure do |config|
   #
 end

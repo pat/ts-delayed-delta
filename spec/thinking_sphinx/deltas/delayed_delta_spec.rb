@@ -96,7 +96,7 @@ describe ThinkingSphinx::Deltas::DelayedDelta do
     end
     
     it "should enqueue a flag-as-deleted job for the appropriate indexes" do
-      Delayed::Job.should_receive(:enqueue) do |job, priority|
+      Delayed::Job.should_receive(:enqueue) do |job, options|
         job.indexes.should == ['foo_core']
       end
       
@@ -104,7 +104,7 @@ describe ThinkingSphinx::Deltas::DelayedDelta do
     end
     
     it "should enqueue a flag-as-deleted job for the appropriate id" do
-      Delayed::Job.should_receive(:enqueue) do |job, priority|
+      Delayed::Job.should_receive(:enqueue) do |job, options|
         job.document_id.should == 42
       end
       
@@ -112,8 +112,8 @@ describe ThinkingSphinx::Deltas::DelayedDelta do
     end
     
     it "should use the defined priority for the flag-as-deleted job" do
-      Delayed::Job.should_receive(:enqueue) do |job, priority|
-        priority.should == 2
+      Delayed::Job.should_receive(:enqueue) do |job, options|
+        options[:priority].should == 2
       end
       
       @delayed_delta.index(@model, @instance)
