@@ -24,8 +24,10 @@ Jeweler::Tasks.new do |gem|
     'README.textile'
   ]
   gem.test_files = FileList[
-    'features/**/*',
-    'spec/**/*'
+    'features/**/*.feature',
+    'features/**/*.rb',
+    'features/**/database.example.yml',
+    'spec/**/*.rb'
   ]
 end
 
