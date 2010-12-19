@@ -52,7 +52,8 @@ h2. Contributors
 * "Edgars Beigarts":http://github.com/ebeigarts (Adding intelligent description for tasks)
 * "Alexander Simonov":http://simonov.me/ (Explicit table definition)
 * "David Goodlad":http://david.goodlad.ca/ (Delayed Job/ActiveRecord load order fix)
+* "Ben Hutton":http://www.benhutton.com/ (Delayed Job compatibility update)
 
 h2. Copyright
 
-Copyright (c) 2009 Pat Allan, and released under an MIT Licence.
+Copyright (c) 2009-2010 Pat Allan, and released under an MIT Licence.
