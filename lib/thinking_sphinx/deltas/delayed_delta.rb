@@ -43,7 +43,7 @@ class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelt
       ThinkingSphinx::Deltas::FlagAsDeletedJob.new(
         model.core_index_names, instance.sphinx_document_id
       ),
-      ThinkingSphinx::Configuration.instance.delayed_job_priority
+      :priority => ThinkingSphinx::Configuration.instance.delayed_job_priority
     ) if instance
     
     true
