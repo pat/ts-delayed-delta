@@ -1,6 +1,3 @@
-require 'jeweler'
-require 'yard'
-
 YARD::Rake::YardocTask.new
 
 Jeweler::Tasks.new do |gem|
@@ -10,13 +7,6 @@ Jeweler::Tasks.new do |gem|
   gem.email       = "pat@freelancing-gods.com"
   gem.homepage    = "http://github.com/freelancing-god/ts-delayed-delta"
   gem.authors     = ["Pat Allan"]
-  
-  gem.add_dependency 'thinking-sphinx', '>= 1.3.6'
-  gem.add_dependency 'delayed_job',     '>= 2.1.0'
-  
-  gem.add_development_dependency "rspec",    ">= 1.2.9"
-  gem.add_development_dependency "yard",     ">= 0"
-  gem.add_development_dependency "cucumber", ">= 0"
   
   gem.files = FileList[
     'lib/**/*.rb',

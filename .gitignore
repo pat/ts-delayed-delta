@@ -21,3 +21,5 @@ pkg
 ## PROJECT::SPECIFIC
 features/thinking_sphinx/database.yml
 tmp
+.bundle
+Gemfile.lock
