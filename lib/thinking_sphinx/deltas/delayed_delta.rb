@@ -31,10 +31,11 @@ class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelt
   # @param [ActiveRecord::Base] instance the instance of the given model that
   #   has changed. Optional.
   # @return [Boolean] true
-  # 
+  #
   def index(model, instance = nil)
     return true if skip? instance
-    
+    return true if instance && !toggled(instance)
+
     ThinkingSphinx::Deltas::Job.enqueue(
       ThinkingSphinx::Deltas::DeltaJob.new(model.delta_index_names),
       ThinkingSphinx::Configuration.instance.delayed_job_priority
