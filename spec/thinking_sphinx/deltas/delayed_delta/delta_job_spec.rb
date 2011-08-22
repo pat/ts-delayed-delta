@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe ThinkingSphinx::Deltas::DeltaJob do
   describe '#perform' do
