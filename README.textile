@@ -25,7 +25,7 @@ For the indexes you want to use this delta approach, make sure you set that up i
 
 <pre><code>define_index do
   # ...
-  
+
   set_property :delta => :delayed
 end</code></pre>
 
@@ -53,6 +53,7 @@ h2. Contributors
 * "Alexander Simonov":http://simonov.me/ (Explicit table definition)
 * "David Goodlad":http://david.goodlad.ca/ (Delayed Job/ActiveRecord load order fix)
 * "Ben Hutton":http://www.benhutton.com/ (Delayed Job compatibility update)
+* "Reinier de Lange":http://www.nedforce.nl/ (Fix for table name reference)
 
 h2. Copyright
 
