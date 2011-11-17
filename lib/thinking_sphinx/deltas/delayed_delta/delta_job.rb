@@ -25,7 +25,7 @@ class ThinkingSphinx::Deltas::DeltaJob
   def perform
     config = ThinkingSphinx::Configuration.instance
     
-    output = `#{config.bin_path}#{config.indexer_binary_name} --config #{config.config_file} --rotate #{indexes.join(' ')}`
+    output = `#{config.bin_path}#{config.indexer_binary_name} --config "#{config.config_file}" --rotate #{indexes.join(' ')}`
     puts output unless ThinkingSphinx.suppress_delta_output?
     
     true
