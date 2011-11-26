@@ -13,7 +13,7 @@ In your @environment.rb@ file, with the rest of your gem dependencies:
   :version => '>= 1.0.0',
   :source  => 'http://gemcutter.org'</code></pre>
 
-And add the following line to the bottom of your @Rakefile@:
+And add the following line to the bottom of your @Rakefile@ if you're not using Rails 3 or newer:
 
 <pre><code>require 'thinking_sphinx/deltas/delayed_delta/tasks'</code></pre>
 
