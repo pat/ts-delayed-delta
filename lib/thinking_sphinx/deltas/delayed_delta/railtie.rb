@@ -1,7 +1,7 @@
 module ThinkingSphinx
   module Deltas
 
-      class DelayedDelta::Engine < Rails::Engine
+      class DelayedDelta::Railtie < Rails::Railtie
         engine_name :ts_delayed_delta
 
         rake_tasks do

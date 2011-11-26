@@ -54,6 +54,7 @@ h2. Contributors
 * "David Goodlad":http://david.goodlad.ca/ (Delayed Job/ActiveRecord load order fix)
 * "Ben Hutton":http://www.benhutton.com/ (Delayed Job compatibility update)
 * "Reinier de Lange":http://www.nedforce.nl/ (Fix for table name reference)
+* "Enrico Brunetta":http://github.com/enrico (Adding Railtie for Rails 3)
 
 h2. Copyright
 
