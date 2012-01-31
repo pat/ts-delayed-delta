@@ -2,7 +2,7 @@ module Delayed
   module Backend
     module ActiveRecord
       class Job < ::ActiveRecord::Base
-        set_table_name :delayed_jobs      
+        self.table_name = "delayed_jobs"
       end
     end
   end
