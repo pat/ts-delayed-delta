@@ -55,6 +55,7 @@ h2. Contributors
 * "Ben Hutton":http://www.benhutton.com/ (Delayed Job compatibility update)
 * "Reinier de Lange":http://www.nedforce.nl/ (Fix for table name reference)
 * "Enrico Brunetta":http://github.com/enrico (Adding Railtie for Rails 3)
+* "Jonathan Viney":https://github.com/jviney and "James Healy":http://yob.id.au/ (Rails 3.2 deprecation fixes)
 
 h2. Copyright
 
