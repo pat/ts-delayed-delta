@@ -41,11 +41,18 @@ class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelt
       ThinkingSphinx::Configuration.instance.delayed_job_priority
     )
 
+    options = if Gem.loaded_specs['delayed_job'].version.to_s.match(/^2\.0\./)
+      # Fallback for compatibility with old release 2.0.x of DJ
+      ThinkingSphinx::Configuration.instance.delayed_job_priority
+    else
+      { :priority => ThinkingSphinx::Configuration.instance.delayed_job_priority }
+    end
+
     Delayed::Job.enqueue(
       ThinkingSphinx::Deltas::FlagAsDeletedJob.new(
         model.core_index_names, instance.sphinx_document_id
       ),
-      :priority => ThinkingSphinx::Configuration.instance.delayed_job_priority
+      options
     ) if instance
 
     true
