@@ -22,7 +22,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'thinking-sphinx', '>= 1.3.6'
   s.add_runtime_dependency 'delayed_job',     '>= 2.0.4'
 
-  s.add_development_dependency 'mysql2',   '0.3.7'
+  s.add_development_dependency 'delayed_job_active_record', '0.3.2'
+  s.add_development_dependency 'mysql2',   '~> 0.3.10'
   s.add_development_dependency 'yard',     '>= 0.7.2'
   s.add_development_dependency 'rake',     '>= 0.9.2'
   s.add_development_dependency 'rspec',    '2.6.0'
