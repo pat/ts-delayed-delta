@@ -56,6 +56,7 @@ h2. Contributors
 * "Reinier de Lange":http://www.nedforce.nl/ (Fix for table name reference)
 * "Enrico Brunetta":http://github.com/enrico (Adding Railtie for Rails 3)
 * "Jonathan Viney":https://github.com/jviney and "James Healy":http://yob.id.au/ (Rails 3.2 deprecation fixes)
+* "Georg Ledermann":http://www.georg-ledermann.de (DJ 2.0.x backwards compatibility)
 
 h2. Copyright
 
