@@ -12,7 +12,8 @@ namespace :thinking_sphinx do
 
     Delayed::Worker.new(
       :min_priority => ENV['MIN_PRIORITY'],
-      :max_priority => ENV['MAX_PRIORITY']
+      :max_priority => ENV['MAX_PRIORITY'],
+      :queue       => ThinkingSphinx::Deltas::DelayedDelta.queue_name
     ).start
   end
 end
