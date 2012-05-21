@@ -26,12 +26,12 @@ class ThinkingSphinx::Deltas::Job < Delayed::Backend::ActiveRecord::Job
   # @param [Object] object The job, which must respond to the #perform method.
   # @param [Integer] priority (0)
   # 
-  def self.enqueue(object, priority = 0)
+  def self.enqueue(object, priority = 0, queue = "")
     options = if Gem.loaded_specs['delayed_job'].version.to_s.match(/^2\.0\./)
       # Fallback for compatibility with old release 2.0.x of DJ
       priority
     else
-      { :priority => priority }
+      { :priority => priority, :queue => queue }
     end
       
     ::Delayed::Job.enqueue(object, options) unless duplicates_exist(object)

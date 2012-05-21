@@ -38,14 +38,17 @@ class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelt
 
     ThinkingSphinx::Deltas::Job.enqueue(
       ThinkingSphinx::Deltas::DeltaJob.new(model.delta_index_names),
-      ThinkingSphinx::Configuration.instance.delayed_job_priority
+      ThinkingSphinx::Configuration.instance.delayed_job_priority,
+      ThinkingSphinx::Deltas::DelayedDelta.queue_name
     )
 
     options = if Gem.loaded_specs['delayed_job'].version.to_s.match(/^2\.0\./)
       # Fallback for compatibility with old release 2.0.x of DJ
       ThinkingSphinx::Configuration.instance.delayed_job_priority
     else
-      { :priority => ThinkingSphinx::Configuration.instance.delayed_job_priority }
+      { :priority => ThinkingSphinx::Configuration.instance.delayed_job_priority,
+        :queue    => ThinkingSphinx::Deltas::DelayedDelta.queue_name
+      }
     end
 
     Delayed::Job.enqueue(
@@ -58,7 +61,14 @@ class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelt
     true
   end
 
+
+  def self.queue_name
+    "thinking_sphinx_delayed_delta"
+  end
+  
   private
+  
+
 
   # Checks whether jobs should be enqueued. Only true if updates and deltas are
   # enabled, and the instance (if there is one) is toggled.
