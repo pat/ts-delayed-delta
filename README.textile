@@ -2,48 +2,49 @@ h1. Delayed Deltas for Thinking Sphinx
 
 h2. Installation
 
-You'll need Thinking Sphinx 1.3.0 or later, and Delayed Job as well. The latter is flagged as a dependency.
+This version requires Thinking Sphinx 3.x (currently the edge branch) and Delayed Job 3.x.
 
-<pre><code>gem install ts-delayed-delta --source http://gemcutter.org</code></pre>
+In your @Gemfile@, it'll likely look something like this:
 
-In your @environment.rb@ file, with the rest of your gem dependencies:
+<pre><code>gem 'ts-delayed-delta', '~> 2.0.0'</code></pre>
 
-<pre><code>config.gem 'ts-delayed-delta',
-  :lib     => 'thinking_sphinx/deltas/delayed_delta',
-  :version => '>= 1.0.0',
-  :source  => 'http://gemcutter.org'</code></pre>
+Or, if you're referring directly to the git repository:
 
-And add the following line to the bottom of your @Rakefile@ if you're not using Rails 3 or newer:
+<pre><code>gem 'ts-delayed-delta',
+  :git    => 'git://github.com/pat/ts-delayed-delta.git',
+  :branch => 'edge',
+  :ref    => 'use-latest-commit-here'</code></pre>
 
-<pre><code>require 'thinking_sphinx/deltas/delayed_delta/tasks'</code></pre>
-
-If this is your first time running Delayed Job, then you're going to need the jobs table migration as well:
-
-<pre><code>script/generate delayed_job</code></pre>
-
-For the indices you want to use this delta approach, make sure you set that up in their @define_index@ blocks.
-
-<pre><code>define_index do
-  # ...
-
-  set_property :delta => :delayed
-end</code></pre>
-
-If you've never used delta indices before, you'll want to add the boolean column named delta to each model that is using the approach.
-
-<pre><code>def self.up
-  add_column :articles, :delta, :boolean, :default => true, :null => false
-end</code></pre>
+And given this gem's built for Delayed Job, we're presuming you've got that set up (with the database table), and you know how to run it. This gem no longer provides a custom task for that purpose - there's no need.
 
 h2. Usage
 
-Once you've got it all set up, all you need to do is make sure that the delayed job process is running - either by Delayed Job's built-in approach, or Thinking Sphinx's custom rake task:
+In your index definitions, make sure you set the @:delta@ setting to @ThinkingSphinx::Deltas::DelayedDelta@:
 
-<pre><code>rake thinking_sphinx:delayed_delta</code></pre>
+<pre><code>ThinkingSphinx::Index.define :book, :with => :active_record, :delta => ThinkingSphinx::Deltas::DelayedDelta do
+  # ...
+end</code></pre>
 
-There's also a short name for the same task, to save your fingers some effort:
+If you've never used delta indices before, you'll want to add the boolean column named delta to each model that is using the approach. It probably doesn't hurt to add an index to that column as well.
 
-<pre><code>rake ts:dd</code></pre>
+<pre><code>add_column :books, :delta, :boolean, :default => true, :null => false
+add_index  :books, :delta</code></pre>
+
+And that's pretty much it. Make sure Delayed Job is running, and it'll take care of the jobs to keep your Sphinx indices up to date.
+
+Please keep in mind that you need to run the Delayed Job workers on the same machine as Sphinx, as direct access to Sphinx files (and the Sphinx command-line tools) is essential.
+
+h2. Limitations
+
+This version of the gem is built for Ruby 1.9 and Rails 3.1 or newer, just like Thinking Sphinx 3.
+
+h2. Contributing
+
+Contributions are very much welcome - but keep in mind the following:
+
+* Keep patches in a separate branch
+* Don't mess with the version number. I'll take care of that when the patch is merged in.
+* Please write tests - currently, there's only acceptance tests in place, because the underlying code is simple enough. If you get stuck into anything complex, unit tests are a smart move.
 
 h2. Contributors
 
@@ -61,4 +62,4 @@ h2. Contributors
 
 h2. Copyright
 
-Copyright (c) 2009-2010 Pat Allan, and released under an MIT Licence.
+Copyright (c) 2009-2012, Thinking Sphinx Delayed Deltas (ts-delayed-delta) is developed and maintained by Pat Allan, and is released under the open MIT Licence. Many thanks to "all who have contributed patches":https://github.com/pat/ts-delayed-delta/contributors.
