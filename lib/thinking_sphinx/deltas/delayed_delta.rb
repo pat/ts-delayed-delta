@@ -1,10 +1,5 @@
 require 'delayed_job'
-
 require 'thinking_sphinx'
-require 'thinking_sphinx/deltas/delayed_delta/delta_job'
-require 'thinking_sphinx/deltas/delayed_delta/flag_as_deleted_job'
-require 'thinking_sphinx/deltas/delayed_delta/job'
-require 'thinking_sphinx/deltas/delayed_delta/version'
 
 # Delayed Deltas for Thinking Sphinx, using Delayed Job.
 #
@@ -16,59 +11,47 @@ require 'thinking_sphinx/deltas/delayed_delta/version'
 # @author Patrick Allan
 # @see http://ts.freelancing-gods.com Thinking Sphinx
 #
-class ThinkingSphinx::Deltas::DelayedDelta < ThinkingSphinx::Deltas::DefaultDelta
+class ThinkingSphinx::Deltas::DelayedDelta <
+  ThinkingSphinx::Deltas::DefaultDelta
 
-  # Adds a job to the queue for processing the given model's delta index. A job
-  # for hiding the instance in the core index is also created, if an instance is
-  # provided.
-  #
-  # Neither job will be queued if updates or deltas are disabled, or if the
-  # instance (when given) is not toggled to be in the delta index. The first two
-  # options are controlled via ThinkingSphinx.updates_enabled? and
-  # ThinkingSphinx.deltas_enabled?.
-  #
-  # @param [Class] model the ActiveRecord model to index.
-  # @param [ActiveRecord::Base] instance the instance of the given model that
-  #   has changed. Optional.
-  # @return [Boolean] true
-  #
-  def index(model, instance = nil)
-    return true if skip? instance
-    return true if instance && !toggled(instance)
-
-    ThinkingSphinx::Deltas::Job.enqueue(
-      ThinkingSphinx::Deltas::DeltaJob.new(model.delta_index_names),
-      ThinkingSphinx::Configuration.instance.delayed_job_priority
+  def self.cancel_jobs
+    Delayed::Job.delete_all(
+      "handler LIKE '--- !ruby/object:ThinkingSphinx::Deltas::%'"
     )
-
-    options = if Gem.loaded_specs['delayed_job'].version.to_s.match(/^2\.0\./)
-      # Fallback for compatibility with old release 2.0.x of DJ
-      ThinkingSphinx::Configuration.instance.delayed_job_priority
-    else
-      { :priority => ThinkingSphinx::Configuration.instance.delayed_job_priority }
-    end
-
-    Delayed::Job.enqueue(
-      ThinkingSphinx::Deltas::FlagAsDeletedJob.new(
-        model.core_index_names, instance.sphinx_document_id
-      ),
-      options
-    ) if instance
-
-    true
   end
 
-  private
+  def self.enqueue_unless_duplicates(object)
+    return if Delayed::Job.where(
+      :handler => object.to_yaml,
+      :locked_at => nil
+    ).count > 0
 
-  # Checks whether jobs should be enqueued. Only true if updates and deltas are
-  # enabled, and the instance (if there is one) is toggled.
+    Delayed::Job.enqueue object, :priority => priority
+  end
+
+  def self.priority
+    ThinkingSphinx::Configuration.instance.settings['delayed_job_priority'] || 0
+  end
+
+  def delete(index, instance)
+    Delayed::Job.enqueue(
+      ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
+        index.name, index.document_id_for_key(instance.id)
+      ), :priority => self.class.priority
+    )
+  end
+
+  # Adds a job to the queue for processing the given index.
   #
-  # @param [ActiveRecord::Base, NilClass] instance
-  # @return [Boolean]
+  # @param [Class] index the Thinking Sphinx index object.
   #
-  def skip?(instance)
-    !ThinkingSphinx.updates_enabled? ||
-    !ThinkingSphinx.deltas_enabled?  ||
-    (instance && !toggled(instance))
+  def index(index)
+    self.class.enqueue_unless_duplicates(
+      ThinkingSphinx::Deltas::DelayedDelta::DeltaJob.new(index.name)
+    )
   end
 end
+
+require 'thinking_sphinx/deltas/delayed_delta/delta_job'
+require 'thinking_sphinx/deltas/delayed_delta/flag_as_deleted_job'
+require 'thinking_sphinx/deltas/delayed_delta/railtie' if defined?(Rails)

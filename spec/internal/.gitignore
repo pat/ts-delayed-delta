@@ -1,0 +1,2 @@
+config/*.sphinx.conf
+db/sphinx/*

@@ -1,9 +1,7 @@
 # A simple job for flagging a specified Sphinx document in a given index as
 # 'deleted'.
 #
-class ThinkingSphinx::Deltas::FlagAsDeletedJob
-  attr_accessor :indices, :document_id
-
+class ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob
   # Initialises the object with an index name and document id. Please note that
   # the document id is Sphinx's unique identifier, and will almost certainly not
   # be the model instance's primary key value.
@@ -11,8 +9,12 @@ class ThinkingSphinx::Deltas::FlagAsDeletedJob
   # @param [String] index The index name
   # @param [Integer] document_id The document id
   #
-  def initialize(indices, document_id)
-    @indices, @document_id = indices, document_id
+  def initialize(index, document_id)
+    @index, @document_id = index, document_id
+  end
+
+  def display_name
+    "Thinking Sphinx: Mark #{@document_id} in #{@index} as deleted"
   end
 
   # Updates the sphinx_deleted attribute for the given document, setting the
@@ -24,17 +26,10 @@ class ThinkingSphinx::Deltas::FlagAsDeletedJob
   # @return [Boolean] true
   #
   def perform
-    config = ThinkingSphinx::Configuration.instance
-
-    indices.each do |index|
-      config.client.update(
-        index,
-        ['sphinx_deleted'],
-        {@document_id => [1]}
-      ) if ThinkingSphinx.sphinx_running? &&
-        ThinkingSphinx.search_for_id(@document_id, index)
-    end
-
-    true
+    ThinkingSphinx::Configuration.instance.connection.query(
+      Riddle::Query.update(@index, @document_id, :sphinx_deleted => true)
+    )
+  rescue Mysql2::Error => error
+    # This isn't vital, so don't raise the error
   end
 end
