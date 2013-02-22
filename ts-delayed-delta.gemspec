@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   }
   s.require_paths = ['lib']
 
-  s.add_runtime_dependency 'thinking-sphinx', '>= 3.0.0.pre'
+  s.add_runtime_dependency 'thinking-sphinx', '>= 3.0.1'
   s.add_runtime_dependency 'delayed_job',     '>= 3.0.0'
 
   s.add_development_dependency 'database_cleaner',          '~> 0.7.1'
