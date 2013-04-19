@@ -26,9 +26,11 @@ class ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob
   # @return [Boolean] true
   #
   def perform
-    ThinkingSphinx::Configuration.instance.connection.query(
-      Riddle::Query.update(@index, @document_id, :sphinx_deleted => true)
-    )
+    ThinkingSphinx::Connection.pool.take do |connection|
+      connection.query(
+        Riddle::Query.update(@index, @document_id, :sphinx_deleted => true)
+      )
+    end
   rescue Mysql2::Error => error
     # This isn't vital, so don't raise the error
   end
