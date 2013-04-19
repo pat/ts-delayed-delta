@@ -23,15 +23,7 @@ class ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob
   # particularly useful in this situation to avoid old values in the core index
   # and just use the new values in the delta index as a reference point.
   #
-  # @return [Boolean] true
-  #
   def perform
-    ThinkingSphinx::Connection.pool.take do |connection|
-      connection.query(
-        Riddle::Query.update(@index, @document_id, :sphinx_deleted => true)
-      )
-    end
-  rescue Mysql2::Error => error
-    # This isn't vital, so don't raise the error
+    ThinkingSphinx::Deltas::DeleteJob.new(@index, @document_id).perform
   end
 end

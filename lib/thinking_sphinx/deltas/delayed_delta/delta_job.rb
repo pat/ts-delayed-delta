@@ -19,8 +19,6 @@ class ThinkingSphinx::Deltas::DelayedDelta::DeltaJob
   # setting is true.
   #
   def perform
-    config = ThinkingSphinx::Configuration.instance
-
-    config.controller.index @index, :verbose => !config.settings['quiet_deltas']
+    ThinkingSphinx::Deltas::IndexJob.new(@index).perform
   end
 end
