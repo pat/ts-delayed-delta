@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'thinking-sphinx', '>= 3.0.0.pre'
   s.add_runtime_dependency 'delayed_job',     '>= 3.0.0'
 
+  s.add_development_dependency 'combustion',                '~> 0.4.0'
   s.add_development_dependency 'database_cleaner',          '~> 0.7.1'
   s.add_development_dependency 'delayed_job_active_record', '~> 0.3.2'
   s.add_development_dependency 'mysql2',                    '~> 0.3.12b4'
