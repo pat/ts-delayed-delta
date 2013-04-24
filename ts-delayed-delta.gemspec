@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'thinking-sphinx'
-  s.add_runtime_dependency 'delayed_job',     '>= 3.0.0'
+  s.add_runtime_dependency 'delayed_job'
 
   s.add_development_dependency 'appraisal',                 '~> 0.5.2'
   s.add_development_dependency 'combustion',                '~> 0.4.0'
