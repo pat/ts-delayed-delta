@@ -115,9 +115,9 @@ class ThinkingSphinx::Deltas::DelayedDelta <
     end
   end
 
-  if ThinkingSphinx::Configuration.instance_methods.include?(
-    :delayed_job_priority
-  )
+  if [:delayed_job_priority, 'delayed_job_priority'].any? { |method|
+    ThinkingSphinx::Configuration.instance_methods.include?(method)
+  }
     include Binary
   else
     include SphinxQL
