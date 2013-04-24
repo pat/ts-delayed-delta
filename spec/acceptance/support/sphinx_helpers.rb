@@ -6,9 +6,11 @@ module SphinxHelpers
   def index(*indices)
     yield if block_given?
 
-    ThinkingSphinx::Deltas::DelayedDelta.cancel_jobs
+    ThinkingSphinx.before_index_hooks.each &:call
     sphinx.index *indices
     sleep 0.25
+
+    ThinkingSphinx::Connection.pool.clear
   end
 
   def work
