@@ -21,10 +21,15 @@ class ThinkingSphinx::Deltas::DelayedDelta <
   end
 
   def self.enqueue_unless_duplicates(object)
-    return if Delayed::Job.where(
-      :handler   => object.to_yaml,
-      :locked_at => nil
-    ).count > 0
+    if Delayed::Job.respond_to?(:where)
+      return if Delayed::Job.where(
+        :handler => object.to_yaml, :locked_at => nil
+      ).count > 0
+    else
+      return if Delayed::Job.count(
+        :conditions => {:handler => object.to_yaml, :locked_at => nil}
+      ) > 0
+    end
 
     Delayed::Job.enqueue object, priority_option
   end
