@@ -26,7 +26,16 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       :locked_at => nil
     ).count > 0
 
-    Delayed::Job.enqueue object, :priority => priority
+    Delayed::Job.enqueue object, priority_option
+  end
+
+  def self.priority_option
+    if Gem.loaded_specs['delayed_job'].version.to_s.match(/^2\.0\./)
+      # Fallback for compatibility with old release 2.0.x of DJ
+      priority
+    else
+      {:priority => priority}
+    end
   end
 
   def self.priority
@@ -65,7 +74,7 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
           model.core_index_names, instance.sphinx_document_id
-        ), :priority => self.class.priority
+        ), self.class.priority_option
       ) if instance
 
       true
@@ -91,7 +100,7 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
           index.name, index.document_id_for_key(instance.id)
-        ), :priority => self.class.priority
+        ), self.class.priority_option
       )
     end
 
