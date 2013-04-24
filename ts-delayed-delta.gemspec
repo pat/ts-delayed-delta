@@ -20,12 +20,13 @@ Gem::Specification.new do |s|
   }
   s.require_paths = ['lib']
 
-  s.add_runtime_dependency 'thinking-sphinx', '>= 3.0.1'
+  s.add_runtime_dependency 'thinking-sphinx'
   s.add_runtime_dependency 'delayed_job',     '>= 3.0.0'
 
+  s.add_development_dependency 'appraisal',                 '~> 0.5.2'
   s.add_development_dependency 'combustion',                '~> 0.4.0'
   s.add_development_dependency 'database_cleaner',          '~> 0.7.1'
-  s.add_development_dependency 'delayed_job_active_record', '~> 0.3.2'
+  s.add_development_dependency 'delayed_job_active_record', '~> 0.4.4'
   s.add_development_dependency 'mysql2',                    '~> 0.3.12b4'
   s.add_development_dependency 'pg',                        '~> 0.11.0'
   s.add_development_dependency 'rake',                      '>= 0.9.2'
