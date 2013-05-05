@@ -5,8 +5,8 @@ rvm:
 before_install:
   - gem update --system
   - gem install bundler --no-ri --no-rdoc
-  - curl -O http://fs-packages.s3.amazonaws.com/fs-sphinx-2.0.6_i386_12.04.deb
-  - sudo dpkg -i fs-sphinx-2.0.6_i386_12.04.deb
+  - curl -O http://fs-packages.s3.amazonaws.com/fs-sphinx-2.0.6_x86_64_12.04.deb
+  - sudo dpkg -i fs-sphinx-2.0.6_x86_64_12.04.deb
   - bundle install
 before_script:
   - "mysql -e 'create database thinking_sphinx;' > /dev/null"
