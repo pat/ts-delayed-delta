@@ -14,6 +14,11 @@ require 'thinking_sphinx'
 class ThinkingSphinx::Deltas::DelayedDelta <
   ThinkingSphinx::Deltas::DefaultDelta
 
+  CONFIGURATIONS_MAP = {
+    priority: :delayed_job_priority,
+    queue: :delayed_job_queue
+  }
+
   def self.cancel_jobs
     Delayed::Job.delete_all(
       "handler LIKE '--- !ruby/object:ThinkingSphinx::Deltas::%'"
@@ -31,24 +36,21 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       ) > 0
     end
 
-    Delayed::Job.enqueue object, priority_option
+    Delayed::Job.enqueue object, dj_opts
   end
 
-  def self.priority_option
-    if Gem.loaded_specs['delayed_job'].version.to_s.match(/^2\.0\./)
-      # Fallback for compatibility with old release 2.0.x of DJ
-      priority
-    else
-      {:priority => priority}
+  def self.dj_opts
+    CONFIGURATIONS_MAP.inject({}) do |dj_mapper, configuration_entity|
+      dj_mapper.merge(configuration_entity[0] => set_dj_opts(configuration_entity[1]))
     end
   end
 
-  def self.priority
+  def self.set_dj_opts(setting)
     configuration = ThinkingSphinx::Configuration.instance
-    if configuration.respond_to? :delayed_job_priority
-      configuration.delayed_job_priority
+    if configuration.respond_to? setting
+      configuration.send(setting)
     else
-      configuration.settings['delayed_job_priority'] || 0
+      configuration.settings[setting.to_s]
     end
   end
 
@@ -79,7 +81,7 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
           model.core_index_names, instance.sphinx_document_id
-        ), self.class.priority_option
+        ), self.class.dj_opts
       ) if instance
 
       true
@@ -105,7 +107,7 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
           index.name, index.document_id_for_key(instance.id)
-        ), self.class.priority_option
+        ), self.class.dj_opts
       )
     end
 
