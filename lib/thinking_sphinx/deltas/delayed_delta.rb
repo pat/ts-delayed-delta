@@ -46,8 +46,8 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       # Only priority option is supported for these versions
       set_job_options(:delayed_job_priority)
     else
-      CONFIGURATIONS_MAP.inject({}) do |dj_mapper, configuration_entity|
-        dj_mapper.merge(configuration_entity[0] => set_job_options(configuration_entity[1]))
+      CONFIGURATIONS_MAP.inject({}) do |job_mapper, configuration_entity|
+        job_mapper.merge(configuration_entity[0] => set_job_options(configuration_entity[1]))
       end
     end
   end
