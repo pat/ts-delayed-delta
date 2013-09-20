@@ -41,8 +41,14 @@ class ThinkingSphinx::Deltas::DelayedDelta <
   end
 
   def self.job_options
-    CONFIGURATIONS_MAP.inject({}) do |dj_mapper, configuration_entity|
-      dj_mapper.merge(configuration_entity[0] => set_job_options(configuration_entity[1]))
+    if Gem.loaded_specs['delayed_job'].version.to_s.match(/^2\.0\./)
+      # Fallback for compatibility with old release 2.0.x of DJ
+      # Only priority option is supported for these versions
+      set_job_options(:delayed_job_priority)
+    else
+      CONFIGURATIONS_MAP.inject({}) do |dj_mapper, configuration_entity|
+        dj_mapper.merge(configuration_entity[0] => set_job_options(configuration_entity[1]))
+      end
     end
   end
 
