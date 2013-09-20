@@ -36,16 +36,16 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       ) > 0
     end
 
-    Delayed::Job.enqueue object, dj_opts
+    Delayed::Job.enqueue object, job_options
   end
 
-  def self.dj_opts
+  def self.job_options
     CONFIGURATIONS_MAP.inject({}) do |dj_mapper, configuration_entity|
-      dj_mapper.merge(configuration_entity[0] => set_dj_opts(configuration_entity[1]))
+      dj_mapper.merge(configuration_entity[0] => set_job_options(configuration_entity[1]))
     end
   end
 
-  def self.set_dj_opts(setting)
+  def self.set_job_options(setting)
     configuration = ThinkingSphinx::Configuration.instance
     if configuration.respond_to? setting
       configuration.send(setting)
@@ -81,7 +81,7 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
           model.core_index_names, instance.sphinx_document_id
-        ), self.class.dj_opts
+        ), self.class.job_options
       ) if instance
 
       true
@@ -107,7 +107,7 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
           index.name, index.document_id_for_key(instance.id)
-        ), self.class.dj_opts
+        ), self.class.job_options
       )
     end
 
