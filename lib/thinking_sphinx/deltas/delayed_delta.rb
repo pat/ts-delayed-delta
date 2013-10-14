@@ -20,10 +20,8 @@ class ThinkingSphinx::Deltas::DelayedDelta <
   }
 
   def self.cancel_jobs
-    Delayed::Job.delete_all(
-      "handler LIKE '--- !ruby/object:ThinkingSphinx::Deltas::%'",
-      :conditions => {:locked_at => nil, :locked_by => nil, :failed_at => nil}
-    )
+    Delayed::Job.where("handler LIKE '--- !ruby/object:ThinkingSphinx::Deltas::%'")
+                .where(:locked_at => nil, :locked_by => nil, :failed_at => nil).delete_all
   end
 
   def self.enqueue_unless_duplicates(object)
