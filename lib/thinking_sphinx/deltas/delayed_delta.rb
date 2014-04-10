@@ -55,8 +55,10 @@ class ThinkingSphinx::Deltas::DelayedDelta <
     configuration = ThinkingSphinx::Configuration.instance
     if configuration.respond_to? setting
       configuration.send(setting)
-    else
+    elsif configuration.respond_to? :settings
       configuration.settings[setting.to_s]
+    else
+      nil
     end
   end
 
