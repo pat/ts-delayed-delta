@@ -15,8 +15,8 @@ class ThinkingSphinx::Deltas::DelayedDelta <
   ThinkingSphinx::Deltas::DefaultDelta
 
   CONFIGURATIONS_MAP = {
-    priority: :delayed_job_priority,
-    queue: :delayed_job_queue
+    :priority => :delayed_job_priority,
+    :queue    => :delayed_job_queue
   }
 
   def self.cancel_jobs
