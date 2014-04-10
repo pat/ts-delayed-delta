@@ -6,13 +6,13 @@ This version requires Thinking Sphinx 3.x (currently the edge branch) and Delaye
 
 In your @Gemfile@, it'll likely look something like this:
 
-<pre><code>gem 'ts-delayed-delta', '~> 2.0.0'</code></pre>
+<pre><code>gem 'ts-delayed-delta', '~> 2.0.1'</code></pre>
 
 Or, if you're referring directly to the git repository:
 
 <pre><code>gem 'ts-delayed-delta',
   :git    => 'git://github.com/pat/ts-delayed-delta.git',
-  :branch => 'edge',
+  :branch => 'master',
   :ref    => 'use-latest-commit-here'</code></pre>
 
 And given this gem's built for Delayed Job, we're presuming you've got that set up (with the database table), and you know how to run it. This gem no longer provides a custom task for that purpose - there's no need.
@@ -59,7 +59,8 @@ h2. Contributors
 * "Jonathan Viney":https://github.com/jviney and "James Healy":http://yob.id.au/ (Rails 3.2 deprecation fixes)
 * "Georg Ledermann":http://www.georg-ledermann.de (DJ 2.0.x backwards compatibility)
 * "Jonathan Lim":http://snowblink.co.uk (Cleaning up version references)
+* "Manjunath Manohar":https://github.com/manjunath-nm89 (Allow setting of job queue, smarter cleaning up of jobs)
 
 h2. Copyright
 
-Copyright (c) 2009-2012, Thinking Sphinx Delayed Deltas (ts-delayed-delta) is developed and maintained by Pat Allan, and is released under the open MIT Licence. Many thanks to "all who have contributed patches":https://github.com/pat/ts-delayed-delta/contributors.
+Copyright (c) 2009-2014, Thinking Sphinx Delayed Deltas (ts-delayed-delta) is developed and maintained by Pat Allan, and is released under the open MIT Licence. Many thanks to "all who have contributed patches":https://github.com/pat/ts-delayed-delta/contributors.
