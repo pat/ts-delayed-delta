@@ -14,11 +14,6 @@ require 'thinking_sphinx'
 class ThinkingSphinx::Deltas::DelayedDelta <
   ThinkingSphinx::Deltas::DefaultDelta
 
-  CONFIGURATIONS_MAP = {
-    :priority => :delayed_job_priority,
-    :queue    => :delayed_job_queue
-  }
-
   def self.cancel_jobs
     Delayed::Job.delete_all([
       "handler LIKE (?) AND locked_at IS NULL AND locked_by IS NULL AND failed_at IS NULL", "--- !ruby/object:ThinkingSphinx::Deltas::%"
@@ -43,22 +38,23 @@ class ThinkingSphinx::Deltas::DelayedDelta <
     if Gem.loaded_specs['delayed_job'].version.to_s.match(/^2\.0\./)
       # Fallback for compatibility with old release 2.0.x of DJ
       # Only priority option is supported for these versions
-      set_job_options(:delayed_job_priority)
+      ThinkingSphinx::Configuration.instance.delayed_job_priority || 0
     else
-      CONFIGURATIONS_MAP.inject({}) do |job_mapper, configuration_entity|
-        job_mapper.merge(configuration_entity[0] => set_job_options(configuration_entity[1]))
-      end
+      {
+        :priority => job_option(:delayed_job_priority, 0),
+        :queue    => job_option(:delayed_job_queue)
+      }
     end
   end
 
-  def self.set_job_options(setting)
+  def self.job_option(setting, default = nil)
     configuration = ThinkingSphinx::Configuration.instance
     if configuration.respond_to? setting
       configuration.send(setting)
     elsif configuration.respond_to? :settings
-      configuration.settings[setting.to_s]
+      configuration.settings[setting.to_s] || default
     else
-      nil
+      default
     end
   end
 
