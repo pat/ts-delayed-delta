@@ -2,7 +2,7 @@ h1. Delayed Deltas for Thinking Sphinx
 
 h2. Installation
 
-This version requires Thinking Sphinx 3.x (currently the edge branch) and Delayed Job 3.x.
+This version works with Thinking Sphinx v1.5.0, v2.1.0 and v3.x.
 
 In your @Gemfile@, it'll likely look something like this:
 
@@ -25,6 +25,14 @@ In your index definitions, make sure you set the @:delta@ setting to @ThinkingSp
   # ...
 end</code></pre>
 
+For those still on pre-v3 versions of Thinking Sphinx, the delta option goes within the define_index block:
+
+<pre><code>define_index do
+  # ...
+
+  set_property :delta => ThinkingSphinx::Deltas::DelayedDelta
+end</code></pre>
+
 If you've never used delta indices before, you'll want to add the boolean column named delta to each model that is using the approach. It probably doesn't hurt to add an index to that column as well.
 
 <pre><code>add_column :books, :delta, :boolean, :default => true, :null => false
@@ -33,10 +41,6 @@ add_index  :books, :delta</code></pre>
 And that's pretty much it. Make sure Delayed Job is running, and it'll take care of the jobs to keep your Sphinx indices up to date.
 
 Please keep in mind that you need to run the Delayed Job workers on the same machine as Sphinx, as direct access to Sphinx files (and the Sphinx command-line tools) is essential.
-
-h2. Limitations
-
-This version of the gem is built for Ruby 1.9 and Rails 3.1 or newer, just like Thinking Sphinx 3.
 
 h2. Contributing
 
