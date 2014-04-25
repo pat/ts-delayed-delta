@@ -23,11 +23,11 @@ class ThinkingSphinx::Deltas::DelayedDelta <
   def self.enqueue_unless_duplicates(object)
     if Delayed::Job.respond_to?(:where)
       return if Delayed::Job.where(
-        :handler => object.to_yaml, :locked_at => nil
+        :handler => object.to_yaml, :locked_at => nil, :failed_at => nil
       ).count > 0
     else
       return if Delayed::Job.count(
-        :conditions => {:handler => object.to_yaml, :locked_at => nil}
+        :conditions => {:handler => object.to_yaml, :locked_at => nil, :failed_at => nil}
       ) > 0
     end
 
