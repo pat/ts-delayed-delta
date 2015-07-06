@@ -84,7 +84,8 @@ class ThinkingSphinx::Deltas::DelayedDelta <
 
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
-          model.core_index_names, instance.sphinx_document_id
+          model.core_index_names, instance.sphinx_document_id,
+          instance.class.name,    instance.id
         ), self.class.job_options
       ) if instance
 
@@ -110,7 +111,8 @@ class ThinkingSphinx::Deltas::DelayedDelta <
     def delete(index, instance)
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
-          index.name, index.document_id_for_key(instance.id)
+          index.name, index.document_id_for_key(instance.id),
+          instance.class.name, instance.id
         ), self.class.job_options
       )
     end

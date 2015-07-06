@@ -9,8 +9,9 @@ class ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob
   # @param [String] index The index name
   # @param [Integer] document_id The document id
   #
-  def initialize(index, document_id)
-    @index, @document_id = index, document_id
+  def initialize(index, document_id, instance_type, instance_id)
+    @index, @document_id, @instance_type, @instance_id =
+      index, document_id, instance_type, instance_id
   end
 
   def display_name
@@ -24,6 +25,16 @@ class ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob
   # and just use the new values in the delta index as a reference point.
   #
   def perform
-    ThinkingSphinx::Deltas::DeleteJob.new(@index, @document_id).perform
+    return unless instance.delta?
+
+    ThinkingSphinx::Deltas::DeleteJob.new(index, document_id).perform
+  end
+
+  private
+
+  attr_reader :index, :document_id, :instance_type, :instance_id
+
+  def instance
+    instance_type.constantize.find instance_id
   end
 end
