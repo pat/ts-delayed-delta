@@ -25,7 +25,7 @@ class ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob
   # and just use the new values in the delta index as a reference point.
   #
   def perform
-    return unless instance.delta?
+    return unless instance.nil? || instance.delta?
 
     ThinkingSphinx::Deltas::DeleteJob.new(index, document_id).perform
   end
@@ -36,5 +36,7 @@ class ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob
 
   def instance
     instance_type.constantize.find instance_id
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 end
