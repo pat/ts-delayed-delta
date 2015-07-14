@@ -35,7 +35,7 @@ class ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob
   attr_reader :index, :document_id, :instance_type, :instance_id
 
   def instance
-    instance_type.constantize.find instance_id
+    @instance ||= instance_type.constantize.find instance_id
   rescue ActiveRecord::RecordNotFound
     nil
   end
