@@ -109,10 +109,11 @@ class ThinkingSphinx::Deltas::DelayedDelta <
 
   module SphinxQL
     def delete(index, instance)
+      id = instance.send(index.options[:primary_key] || :id)
       Delayed::Job.enqueue(
         ThinkingSphinx::Deltas::DelayedDelta::FlagAsDeletedJob.new(
-          index.name, index.document_id_for_key(instance.id),
-          instance.class.name, instance.id
+          index.name, index.document_id_for_key(id),
+          instance.class.name, id
         ), self.class.job_options
       )
     end
