@@ -15,9 +15,16 @@ class ThinkingSphinx::Deltas::DelayedDelta <
   ThinkingSphinx::Deltas::DefaultDelta
 
   def self.cancel_jobs
-    Delayed::Job.delete_all([
+    where_clause = [
       "handler LIKE (?) AND locked_at IS NULL AND locked_by IS NULL AND failed_at IS NULL", "--- !ruby/object:ThinkingSphinx::Deltas::%"
-    ])
+    ]
+    if Delayed::Job.respond_to?(:where)
+      # Supported in Rails 3 and up.
+      Delayed::Job.where(where_clause).delete_all
+    else
+      # Supported from Rails 2, deprecated in Rails 5.
+      Delayed::Job.delete_all(where_clause)
+    end
   end
 
   def self.enqueue_unless_duplicates(object)
