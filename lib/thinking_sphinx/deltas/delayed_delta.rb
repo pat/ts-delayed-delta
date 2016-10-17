@@ -22,7 +22,7 @@ class ThinkingSphinx::Deltas::DelayedDelta <
       # Supported in Rails 3 and up.
       Delayed::Job.where(where_clause).delete_all
     else
-      # Supported from Rails 2, deprecated in Rails 5.1.
+      # Supported from Rails 2, deprecated in Rails 5.
       Delayed::Job.delete_all(where_clause)
     end
   end
