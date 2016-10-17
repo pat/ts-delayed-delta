@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'thinking-sphinx',               '>= 1.5.0'
   s.add_runtime_dependency 'delayed_job'
+  s.add_runtime_dependency 'activerecord',                  '>= 2.0'
 
   s.add_development_dependency 'appraisal',                 '~> 0.5.2'
   s.add_development_dependency 'combustion',                '~> 0.4.0'
