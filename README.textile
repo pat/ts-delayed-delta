@@ -64,7 +64,9 @@ h2. Contributors
 * "Georg Ledermann":http://www.georg-ledermann.de (DJ 2.0.x backwards compatibility)
 * "Jonathan Lim":http://snowblink.co.uk (Cleaning up version references)
 * "Manjunath Manohar":https://github.com/manjunath-nm89 (Allow setting of job queue, smarter cleaning up of jobs)
+* "Mikko Koski":https://github.com/rap1ds (Ensure new jobs are created if all existing jobs are failures)
+* "Jason Barnabe":https://github.com/JasonBarnabe (Fix Rails 5.x compatibility)
 
 h2. Copyright
 
-Copyright (c) 2009-2014, Thinking Sphinx Delayed Deltas (ts-delayed-delta) is developed and maintained by Pat Allan, and is released under the open MIT Licence. Many thanks to "all who have contributed patches":https://github.com/pat/ts-delayed-delta/contributors.
+Copyright (c) 2009-2018, Thinking Sphinx Delayed Deltas (ts-delayed-delta) is developed and maintained by Pat Allan, and is released under the open MIT Licence. Many thanks to "all who have contributed patches":https://github.com/pat/ts-delayed-delta/contributors.
