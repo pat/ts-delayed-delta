@@ -30,6 +30,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'delayed_job_active_record', '~> 0.4.4'
   s.add_development_dependency 'mysql2',                    '~> 0.3.18'
   s.add_development_dependency 'pg',                        '~> 0.11.0'
-  s.add_development_dependency 'rake',                      '>= 0.9.2'
-  s.add_development_dependency 'rspec',                     '~> 2.11.0'
+  s.add_development_dependency 'rake',                      '~> 10.0'
+  s.add_development_dependency 'rspec',                     '~> 2.11'
 end
