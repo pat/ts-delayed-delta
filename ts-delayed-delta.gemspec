@@ -11,8 +11,6 @@ Gem::Specification.new do |s|
   s.summary     = %q{Thinking Sphinx - Delayed Deltas}
   s.description = %q{Manage delta indexes via Delayed Job for Thinking Sphinx}
 
-  s.rubyforge_project = 'ts-delayed-delta'
-
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f|
